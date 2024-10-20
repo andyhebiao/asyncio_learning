@@ -9,6 +9,7 @@ import functools
 import time
 from typing import Callable, Any
 import asyncio
+from aiohttp import ClientSession
 
 def async_timed():
     def wrapper(func: Callable) -> Callable:
@@ -44,3 +45,8 @@ async def delay(delay_seconds: int) -> int:
     await asyncio.sleep(delay_seconds)
     print(f'finished sleeping for {delay_seconds} second(s)')
     return delay_seconds
+
+
+async def fetch_status(session: ClientSession, url: str) -> int:
+    async with session.get(url) as result:
+        return result.status
